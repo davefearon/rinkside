@@ -1,0 +1,30 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Name:</b>
+  <%= @rink.name %>
+</p>
+
+<p>
+  <b>Address:</b>
+  <%= @rink.address %>
+</p>
+
+<p>
+  <b>Longitude:</b>
+  <%= @rink.longitude %>
+</p>
+
+<p>
+  <b>Latitude:</b>
+  <%= @rink.latitude %>
+</p>
+
+<p>
+  <b>Notes:</b>
+  <%= @rink.notes %>
+</p>
+
+
+<%= link_to 'Edit', edit_rink_path(@rink) %> |
+<%= link_to 'Back', rinks_path %>
