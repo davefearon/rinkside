@@ -6,13 +6,6 @@ development:
   pool: 5
   timeout: 5000
 
-# development:
-#   adapter: mysql
-#   database: rinkside
-#   username: root
-#   password: root
-#   socket: /Applications/MAMP/tmp/mysql/mysql.sock
-
 dave:
   adapter: mysql
   database: rinkside
