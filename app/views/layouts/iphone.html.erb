@@ -1,11 +1,32 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+
+<!--[if lt IE 7 ]> <html lang="en" class="no-js ie6"> <![endif]-->
+<!--[if IE 7 ]>    <html lang="en" class="no-js ie7"> <![endif]-->
+<!--[if IE 8 ]>    <html lang="en" class="no-js ie8"> <![endif]-->
+<!--[if IE 9 ]>    <html lang="en" class="no-js ie9"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html lang="en" class="no-js"> <!--<![endif]-->
 <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
   <title>Rinkside</title>
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="shortcut icon" href="/favicon.ico">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+  <script src="/javascripts/libs/modernizr-1.6.min.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery-1.4.2.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/script.js"></script>
+
   <%= stylesheet_link_tag :all %>
-  <%= javascript_include_tag :defaults %>
+  <% #= javascript_include_tag :defaults %>
   <%= csrf_meta_tag %>
 </head>
+
 <body>
 <script src="http://maps.google.com/maps/api/js?sensor=false"></script>
 <script>
@@ -27,7 +48,7 @@ function successCallback( position )
 {
 	lat = position.coords.latitude;
 	lon = position.coords.longitude;
-    //alert("latitude: " + lat + ", longitude: " + lon);
+    //console.debug("latitude: " + lat + ", longitude: " + lon);
     map_initialize();
 }
 
@@ -105,9 +126,31 @@ function makeInfoWindow(marker, info)
 /* END OF MAPS
 =============================================================================================*/
 </script>
-<div id="map_canvas" style="width:500px; height:500px; background:#ff0;"></div>
+<script type="text/javascript">
+    $(document).ready( function()
+    {
+        //map_initialize('rinks/map/all');
+    });
+</script>
 iPhone
 <%= yield %>
+
+ <!--[if lt IE 7 ]>
+    <script src="/javascripts/libs/dd_belatedpng.js"></script>
+    <script> DD_belatedPNG.fix('img, .png_bg'); </script>
+ <![endif]-->
+
+  <!-- TODO: change UA-XXXXX-X -->
+  <script>
+   var _gaq = [['_setAccount', 'UA-XXXXX-X'], ['_trackPageview']];
+   (function(d, t) {
+    var g = d.createElement(t),
+        s = d.getElementsByTagName(t)[0];
+    g.async = true;
+    g.src = ('https:' == location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    s.parentNode.insertBefore(g, s);
+   })(document, 'script');
+  </script>
 
 </body>
 </html>
