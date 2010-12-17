@@ -5,6 +5,10 @@ Rinkside::Application.routes.draw do
 
   resources :rinks
 
+  match 'home/map' => 'home#map'
+
+  match 'home/fetch_database' => 'home#fetch_database'
+
   match 'home/set_layout' => 'home#set_layout'
 
 

@@ -1,4 +1,7 @@
 class RinksController < ApplicationController
+
+  before_filter :authenticate
+
   # GET /rinks
   # GET /rinks.xml
   def index
@@ -6,7 +9,6 @@ class RinksController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.erb
-      format.xml  { render :xml => @rinks }
     end
   end
 

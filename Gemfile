@@ -8,8 +8,14 @@ gem 'rails', '3.0.3'
 gem 'sqlite3-ruby', :require => 'sqlite3'
 
 group :dave do
-  # require 'mysql'
+  require 'mysql'
+  require 'csvobj'
 end
+
+# group :development do
+#   require 'mysql'
+#   require 'csvobj'
+# end
 
 # Use unicorn as the web server
 # gem 'unicorn'

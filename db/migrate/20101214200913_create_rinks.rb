@@ -5,6 +5,11 @@ class CreateRinks < ActiveRecord::Migration
       t.text :address
       t.integer :longitude
       t.integer :latitude
+      t.string :rinktype
+      t.string :hours
+      t.string :lights
+      t.text :facilities
+      t.text :conditions
       t.text :notes
 
       t.timestamps
