@@ -10,13 +10,13 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101214200913) do
+ActiveRecord::Schema.define(:version => 20101218181653) do
 
   create_table "rinks", :force => true do |t|
     t.string   "name"
     t.text     "address"
-    t.integer  "longitude"
-    t.integer  "latitude"
+    t.string   "longitude"
+    t.string   "latitude"
     t.string   "rinktype"
     t.string   "hours"
     t.string   "lights"

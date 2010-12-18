@@ -1,6 +1,6 @@
 class RinksController < ApplicationController
 
-  before_filter :authenticate
+  # before_filter :authenticate
 
   # GET /rinks
   # GET /rinks.xml
@@ -59,6 +59,12 @@ class RinksController < ApplicationController
   # PUT /rinks/1.xml
   def update
     @rink = Rink.find(params[:id])
+		@rink.latitude = params[:latitude]
+		@rink.longitude = params[:longitude]
+		@rink.save
+		#puts "longitude: " + params[:longitude]
+		#puts params[:rink]
+		#return
 
     respond_to do |format|
       if @rink.update_attributes(params[:rink])
