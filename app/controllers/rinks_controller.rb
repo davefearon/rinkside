@@ -62,9 +62,6 @@ class RinksController < ApplicationController
 		@rink.latitude = params[:latitude]
 		@rink.longitude = params[:longitude]
 		@rink.save
-		#puts "longitude: " + params[:longitude]
-		#puts params[:rink]
-		#return
 
     respond_to do |format|
       if @rink.update_attributes(params[:rink])

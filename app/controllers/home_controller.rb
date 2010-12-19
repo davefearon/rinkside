@@ -8,8 +8,8 @@ class HomeController < ApplicationController
   end
 
   def map
-    @rinks = Rink.all
-
+    # @rinks = Rink.where(:latitude => "").limit(2)
+		@rinks = Rink.all
     respond_to do |format|
       format.json { render :json => @rinks }
       format.xml { render :xml => @rinks }
@@ -22,30 +22,33 @@ class HomeController < ApplicationController
   end
 
   # this is only needed to import the opendata
-  # class Mycsv < CSVobj ; end
-=begin
+#=begin
+  class Mycsv < CSVobj ; end
+
   def fetch_database
     rinks = File.new( "public/images/2009_outdoor_rinks.csv" )
     Mycsv.parse(rinks).each do |r|
-      dup = Rink.where(:name => r.name.titleize, :address => r.address.titleize).first
+			address = r.address.strip.titleize.gsub(/Kanata|Goulbourn|West Carleton|Nepean|Rideau|Gloucester|Old Ottawa|Ottawa|Rockcliffe Park|Vanier|Osgoode|Cumberland|Orleans/, "").strip
+			address.gsub(/Crescent/, "Cres")
+      dup = Rink.where(:address => address).first
 
       if dup.nil?
         rink = Rink.new
-        rink.name = r.name.titleize
-        rink.address = r.address.titleize
-        rink.rinktype = r.type.titleize
-        rink.lights = r.lights.titleize
-        rink.notes = r.summer_use.titleize
+        rink.name = r.name.strip.titleize
+        rink.address = address
+        rink.rinktype = r.type.strip.titleize
+        rink.lights = r.lights.strip.titleize
+        rink.notes = r.summer_use.strip.titleize
         rink.save
       else
-        if r.type != ""
-          dup.rinktype = dup.rinktype + ", " + r.type.titleize
+        if r.type.strip.length != 0 && r.type.strip.titleize != dup.rinktype.strip
+          dup.rinktype = dup.rinktype + ", " + r.type.strip.titleize
         end
-        if r.lights != ""
-          dup.lights = dup.lights + ", " + r.lights.titleize
+				if r.lights.strip.length != 0 && r.lights.strip.titleize != dup.lights.strip
+          dup.lights = dup.lights + ", " + r.lights.strip.titleize
         end
-        if r.summer_use != ""
-          dup.notes = dup.notes + ", " + r.summer_use.titleize
+				if r.summer_use.strip.length != 0 && r.summer_use.strip.titleize != dup.notes.strip
+          dup.notes = dup.notes + ", " + r.summer_use.strip.titleize
         end
         dup.save
       end
@@ -53,6 +56,6 @@ class HomeController < ApplicationController
   end
 
   # end of import stuff
-=end
+#=end
 
 end

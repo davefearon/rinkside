@@ -15,5 +15,5 @@ group :development do
   # require 'mysql'
 
 	# Comment out the line below once the data is imported
-	# require 'csvobj'
+	require 'csvobj'
 end

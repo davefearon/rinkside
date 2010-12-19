@@ -23,7 +23,7 @@
   <script src="/javascripts/script.js"></script>
 
   <%= stylesheet_link_tag :all %>
-  <% #= javascript_include_tag :defaults %>
+  <% #= javascript_include_tag :all %>
   <%= csrf_meta_tag %>
 
   <script src="http://code.google.com/apis/gears/gears_init.js"></script>
@@ -38,7 +38,7 @@
 
   function initialize() {
     var myOptions = {
-      zoom: 15,
+      zoom: 10,
       mapTypeId: google.maps.MapTypeId.ROADMAP
     };
     map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
@@ -48,11 +48,15 @@
       browserSupportFlag = true;
       navigator.geolocation.getCurrentPosition(function(position) {
         initialLocation = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
-        contentString = "Location found using W3C standard";
+        contentString = "You are here mofo!";
         map.setCenter(initialLocation);
         infowindow.setContent(contentString);
         infowindow.setPosition(initialLocation);
         infowindow.open(map);
+				var marker = new google.maps.Marker({
+					map: map,
+					position: initialLocation
+				});
 				fetch_locations();
       }, function() {
         handleNoGeolocation(browserSupportFlag);
@@ -68,6 +72,10 @@
         infowindow.setContent(contentString);
         infowindow.setPosition(initialLocation);
         infowindow.open(map);
+				var marker = new google.maps.Marker({
+					map: map,
+					position: initialLocation
+				});
 				fetch_locations();
       }, function() {
         handleNoGeolocation(browserSupportFlag);
@@ -96,7 +104,7 @@
 				$.each( addresses, function(i, value) {
 					if( value.rink.latitude == "" || value.rink.latitude == null )
 					{
-						codeAddress( value.rink.id, value.rink.address + ", Ottawa, Ontario, Canada" );
+						codeAddress( value.rink.id, value.rink.address + ", Ontario, Canada" );
 					}
 					else
 					{
@@ -158,6 +166,10 @@
     infowindow.setContent(contentString);
     infowindow.setPosition(initialLocation);
     infowindow.open(map);
+		var marker = new google.maps.Marker({
+			map: map,
+			position: initialLocation
+		});
 		fetch_locations();
   }
   </script>
