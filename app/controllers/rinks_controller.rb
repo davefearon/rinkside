@@ -1,6 +1,6 @@
 class RinksController < ApplicationController
 
-  # before_filter :authenticate
+  before_filter :authenticate
 
   # GET /rinks
   # GET /rinks.xml

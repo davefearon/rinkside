@@ -22,7 +22,7 @@ class HomeController < ApplicationController
   end
 
   # this is only needed to import the opendata
-#=begin
+=begin
   class Mycsv < CSVobj ; end
 
   def fetch_database
@@ -56,6 +56,6 @@ class HomeController < ApplicationController
   end
 
   # end of import stuff
-#=end
+=end
 
 end
