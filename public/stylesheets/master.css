@@ -1,0 +1,24 @@
+/* rinkside CSS */
+/* copyright 2010 dave fearon & warren dunlop */
+
+html{ background: url('../images/bg.jpg') repeat;}
+
+body { background: url('../images/map.jpg') no-repeat center center;}
+
+#main {
+  opacity: .85; /* Standard: FF gt 1.5, Opera, Safari */
+  filter: alpha(opacity=85); /* IE lt 8 */
+  -ms-filter: "alpha(opacity=85)"; /* IE 8 */
+  -khtml-opacity: .85; /* Safari 1.x */
+  -moz-opacity: .85; /* FF lt 1.5, Netscape */
+}
+
+footer { background: #333; background: rgba(25, 25, 25, 0.8); color: #fff; left: 100px; bottom:0; padding: 10px 15px; position: fixed; z-index: 1000; text-shadow: 0 1px 0 #111;}
+
+#logo { position:fixed; z-index:1000; padding-top:20px; left:100px; background:url('../images/logo.png') no-repeat rgba(25, 25, 25, 0.8); width:200px; height:89px; background-position: left 15px;}
+
+#corner-tl, #corner-tr, #corner-br, #corner-bl { background: url('../images/map-corner.png') no-repeat; position:fixed; width:500px; height:500px;}
+#corner-tl { top:0; left:0; background-position: bottom right;}
+#corner-tr { top:0; right:0; background-position: bottom left;}
+#corner-br { bottom:0; right:0; background-position: top left;}
+#corner-bl { bottom:0; left:0; background-position: top right;}
