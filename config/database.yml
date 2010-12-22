@@ -13,12 +13,12 @@ development:
 #  password: root
 #  socket: /Applications/MAMP/tmp/mysql/mysql.sock
 
-dave:
-  adapter: mysql
-  database: rinkside
-  username: root
-  password: root
-  socket: /Applications/MAMP/tmp/mysql/mysql.sock
+#dave:
+#  adapter: mysql
+#  database: rinkside
+#  username: root
+#  password: root
+#  socket: /Applications/MAMP/tmp/mysql/mysql.sock
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
