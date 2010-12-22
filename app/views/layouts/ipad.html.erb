@@ -25,113 +25,14 @@
   <%= stylesheet_link_tag :all %>
   <% #= javascript_include_tag :defaults %>
   <%= csrf_meta_tag %>
+
+	<script src="http://code.google.com/apis/gears/gears_init.js"></script>
+  <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true"></script>
+	<script src="/javascripts/mylibs/maps.js"></script>
 </head>
 
 <body>
-<script src="http://maps.google.com/maps/api/js?sensor=false"></script>
-<script>
-var lat;
-var lon;
-findLocation();
-function findLocation(){
-	if( navigator.geolocation )
-	{
-		navigator.geolocation.getCurrentPosition( successCallback, errorCallback );
-	}
-	else
-	{
-		// alert the user of no location
-	}
-}
 
-function successCallback( position )
-{
-	lat = position.coords.latitude;
-	lon = position.coords.longitude;
-    //console.debug("latitude: " + lat + ", longitude: " + lon);
-    map_initialize();
-}
-
-function errorCallback()
-{
-	//do something with erorr
-}
-
-var map;
-var marker;
-var infoWindow;
-var address;
-var url;
-var info;
-
-function map_initialize()
-{
-	var myOptions = { zoom: 15, mapTypeId: google.maps.MapTypeId.ROADMAP };
-	map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
-
-	infoWindow = new google.maps.InfoWindow();
-
-	var geo = new google.maps.Geocoder();
-
-    address = 'Ottawa, Ontario, Canada';
-
-    if(lat == null || lon == null)
-    {
-        address = 'Ottawa, Ontario, Canada';
-    }
-    else
-    {
-        address = lat + ", " + lon;
-    }
-
-    geo.geocode({'address' : address }, function(results, status) {
-        map.setCenter(results[0].geometry.location);
-    });
-
-	info = "<div style='color:#000000;font-size:14px;'>You Live Here!</div>";
-
-	makemarker(info, address);
-};
-
-function makemarker( info, address )
-{
-	var geocoder = new google.maps.Geocoder();
-
-	geocoder.geocode({ 'address': address }, function(results, status) {
-		if( status == google.maps.GeocoderStatus.OK )
-		{
-			marker = new google.maps.Marker({
-				map:map,
-				clickable: true,
-				position: results[0].geometry.location
-			});
-
-			makeInfoWindow(marker, info);
-		}
-		else
-		{
-			//not success
-		}
-	});
-};
-
-function makeInfoWindow(marker, info)
-{
-	google.maps.event.addListener(marker, "click", function(event) {
-		infoWindow.setContent(info);
-		infoWindow.open(map, marker);
-	});
-};
-
-/* END OF MAPS
-=============================================================================================*/
-</script>
-<script type="text/javascript">
-    $(document).ready( function()
-    {
-        //map_initialize('rinks/map/all');
-    });
-</script>
 iPad
 <%= yield %>
 
