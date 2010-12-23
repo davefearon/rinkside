@@ -2,6 +2,14 @@ class HomeController < ApplicationController
   def index
     flash[:notice] = params[:q]
 
+		@rinks = Rink.all
+		@rinks.each do |rink|
+			if rink.conditions != ""
+				rink.rinkconditions.create({ :condition => rink.conditions, :comment => rink.notes})
+				rink.save
+			end
+		end
+
     respond_to do |format|
       format.html # index.html.erb
     end

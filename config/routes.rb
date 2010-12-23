@@ -3,7 +3,10 @@ Rinkside::Application.routes.draw do
 
   root :to => 'home#index'
 
-  resources :rinks
+  resources :rinks do
+		resources :rinkconditions
+		resources :rinknotes
+	end
 
   match 'home/map' => 'home#map'
 

@@ -10,7 +10,22 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101218181653) do
+ActiveRecord::Schema.define(:version => 20101223170433) do
+
+  create_table "rinkconditions", :force => true do |t|
+    t.string   "condition"
+    t.text     "comment"
+    t.integer  "rink_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "rinknotes", :force => true do |t|
+    t.text     "note"
+    t.integer  "rink_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "rinks", :force => true do |t|
     t.string   "name"

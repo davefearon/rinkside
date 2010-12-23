@@ -50,6 +50,13 @@
   <%= @rink.notes %>
 </p>
 
+<p>
+	<% @rink.rinkconditions.each do |cond| %>
+		<%= cond.condition %><br/>
+		<%= cond.comment %>
+	<% end %>
+</p>
+
 
 <%= link_to 'Edit', edit_rink_path(@rink) %> |
 <%= link_to 'Back', rinks_path %>
