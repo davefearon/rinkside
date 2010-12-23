@@ -15,6 +15,7 @@ ActiveRecord::Schema.define(:version => 20101223170433) do
   create_table "rinkconditions", :force => true do |t|
     t.string   "condition"
     t.text     "comment"
+    t.integer  "tempupdated"
     t.integer  "rink_id"
     t.datetime "created_at"
     t.datetime "updated_at"

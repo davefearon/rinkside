@@ -3,6 +3,7 @@ class CreateRinkconditions < ActiveRecord::Migration
     create_table :rinkconditions do |t|
 			t.string :condition
 			t.text :comment
+			t.integer :tempupdated
 			t.references :rink
       t.timestamps
     end

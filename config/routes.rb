@@ -12,6 +12,9 @@ Rinkside::Application.routes.draw do
 
   match 'home/fetch_database' => 'home#fetch_database'
 
+	match 'home/pull_conditions' => 'home#pull_conditions'
+	match 'home/move_data' => 'home#move_data'
+
   match 'home/set_layout' => 'home#set_layout'
 
 
