@@ -34,29 +34,26 @@
   var ottawa = new google.maps.LatLng(45.409056,-75.681725);
   var browserSupportFlag =  new Boolean();
   var map;
-  var infowindow = new google.maps.InfoWindow();
+	var marker;
+	var infowindow;
 
   function initialize() {
     var myOptions = {
-      zoom: 10,
+      zoom: 12,
       mapTypeId: google.maps.MapTypeId.ROADMAP
     };
     map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+
+		infowindow = new google.maps.InfoWindow();
 
     // Try W3C Geolocation method (Preferred)
     if(navigator.geolocation) {
       browserSupportFlag = true;
       navigator.geolocation.getCurrentPosition(function(position) {
         initialLocation = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
-        contentString = "You are here mofo!";
         map.setCenter(initialLocation);
-        infowindow.setContent(contentString);
-        infowindow.setPosition(initialLocation);
-        infowindow.open(map);
-				var marker = new google.maps.Marker({
-					map: map,
-					position: initialLocation
-				});
+				contentString = "You are here mofo!";
+				makeMarker(initialLocation,contentString,false,google.maps.Animation.BOUNCE);
 				fetch_locations();
       }, function() {
         handleNoGeolocation(browserSupportFlag);
@@ -67,15 +64,9 @@
       var geo = google.gears.factory.create('beta.geolocation');
       geo.getCurrentPosition(function(position) {
         initialLocation = new google.maps.LatLng(position.latitude,position.longitude);
-        contentString = "Location found using Google Gears";
         map.setCenter(initialLocation);
-        infowindow.setContent(contentString);
-        infowindow.setPosition(initialLocation);
-        infowindow.open(map);
-				var marker = new google.maps.Marker({
-					map: map,
-					position: initialLocation
-				});
+				contentString = "You are here mofo!";
+				makeMarker(initialLocation,contentString,false,google.maps.Animation.BOUNCE);
 				fetch_locations();
       }, function() {
         handleNoGeolocation(browserSupportFlag);
@@ -87,8 +78,46 @@
     }
   }
 
-	function fetch_locations()
-	{
+	function makeMarker( position, info, open, animation ) {
+		infowindow.setContent(info);
+		infowindow.setPosition(position);
+		if(open) {
+			infowindow.open(map);
+		}
+
+		if( animation != null ) {
+			marker = new google.maps.Marker({
+				map: map,
+				animation: animation,
+				position: position
+			});
+		} else {
+			marker = new google.maps.Marker({
+				map: map,
+				clickable: true,
+				position: position
+			});
+		}
+		makeInfoWindow(marker, info);
+	}
+
+	function makeInfoWindow( marker, info ) {
+		google.maps.event.addListener( marker, "click", function(event) {
+			toggleBounce(marker);
+			infowindow.setContent(info);
+			infowindow.open(map, marker);
+		});
+	}
+
+	function toggleBounce(marker) {
+		if( marker.getAnimation() != null ) {
+			marker.setAnimation(null);
+		} else {
+			//marker.setAnimation(google.maps.Animation.BOUNCE);
+		}
+	}
+
+	function fetch_locations() {
 		var data = { map: 'fetch' };
 		var url = "/home/map.json";
 
@@ -102,54 +131,18 @@
 			{
 				addresses = result;
 				$.each( addresses, function(i, value) {
-					if( value.rink.latitude == "" || value.rink.latitude == null )
+					if( value.rink.latitude == "" || value.rink.latitude == null || value.rink.longitude == "" || value.rink.longitude == null )
 					{
-						codeAddress( value.rink.id, value.rink.address + ", Ontario, Canada" );
+						var pos = codeAddress( value.rink.id, value.rink.address + ", Ottawa, Ontario, Canada" );
+						//console.debug(pos);
+						makeMarker(pos,value.rink.name,false,google.maps.Animation.DROP);
 					}
 					else
 					{
-						var marker = new google.maps.Marker({
-							map: map,
-							position: new google.maps.LatLng(value.rink.latitude,value.rink.longitude)
-						});
+						var position = new google.maps.LatLng(value.rink.latitude,value.rink.longitude);
+						makeMarker(position,value.rink.name,false,google.maps.Animation.DROP);
 					}
 				});
-			}
-		});
-	}
-
-	function codeAddress( id, address )
-	{
-		geocoder = new google.maps.Geocoder();
-		geocoder.geocode({'address':address}, function(results, status){
-			if( status == google.maps.GeocoderStatus.OK )
-			{
-					var data = {
-						id: id,
-						latitude: results[0].geometry.location.va,
-						longitude: results[0].geometry.location.wa
-					};
-					$.ajax({
-						type: "PUT",
-						url: "/rinks/" + id,
-						data: data,
-						async: false,
-						dataType: 'json',
-						success: function(r)
-						{
-							console.debug(r);
-						}
-					});
-				var marker = new google.maps.Marker({
-				 	map: map,
-				 	position: results[0].geometry.location
-				});
-				return results[0].geometry.location;
-			}
-			else
-			{
-				//error getting geocode info
-				console.debug(status)
 			}
 		});
 	}
@@ -163,15 +156,41 @@
       contentString = "Error: Your browser doesn't support geolocation. Are you in Siberia?";
     }
     map.setCenter(initialLocation);
-    infowindow.setContent(contentString);
-    infowindow.setPosition(initialLocation);
-    infowindow.open(map);
-		var marker = new google.maps.Marker({
-			map: map,
-			position: initialLocation
-		});
+		makeMarker(initialLocation,contentString,false,google.maps.Animation.BOUNCE);
 		fetch_locations();
   }
+
+	function codeAddress( id, address ) {
+		geocoder = new google.maps.Geocoder();
+		geocoder.geocode({'address':address}, function(results, status){
+			if( status == google.maps.GeocoderStatus.OK )
+			{
+					var data = {
+						id: id,
+						latitude: results[0].geometry.location.lat(),
+						longitude: results[0].geometry.location.lng()
+					};
+				//console.debug(data);
+					$.ajax({
+						type: "PUT",
+						url: "/rinks/" + id,
+						data: data,
+						async: false,
+						dataType: 'json',
+						success: function(r)
+						{
+							//console.debug(r);
+						}
+					});
+				return results[0].geometry.location;
+			}
+			else
+			{
+				//error getting geocode info
+				//console.debug(status)
+			}
+		});
+	}
   </script>
 </head>
 
@@ -185,7 +204,7 @@ iPhone
     <script> DD_belatedPNG.fix('img, .png_bg'); </script>
  <![endif]-->
 
-  <!-- TODO: change UA-XXXXX-X -->
+  <!-- TODO: UA-2895777-10 -->
   <script>
    var _gaq = [['_setAccount', 'UA-XXXXX-X'], ['_trackPageview']];
    (function(d, t) {

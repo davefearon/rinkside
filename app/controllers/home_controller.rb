@@ -8,7 +8,6 @@ class HomeController < ApplicationController
   end
 
   def map
-    # @rinks = Rink.where(:latitude => "").limit(2)
 		@rinks = Rink.all
     respond_to do |format|
       format.json { render :json => @rinks }
