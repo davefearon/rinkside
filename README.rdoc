@@ -1,0 +1,10 @@
+= Rinkside
+
+Putting you Rinkside! http://rinksi.de
+
+== Copyright
+
+Copyright (c) 2010 Dave Fearon & Warren Dunlop.
+
+Developer: Dave Fearon http://davefearon.com
+Designer: Warren Dunlop http://warrendunlop.com
