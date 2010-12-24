@@ -48,7 +48,10 @@ class HomeController < ApplicationController
 				end
 
 				if !@cond.nil?
-					@rink.rinkconditions.create({ :condition => @cond, :comment => @description, :tempupdated => @tempupdated })
+					dub = Rinkcondition.where(:tempupdated => @tempupdated, :rink_id => @rink.id).first
+					if dub.nil?
+						@rink.rinkconditions.create({ :condition => @cond, :comment => @description, :tempupdated => @tempupdated })
+					end
 				end
 			end
 		end
@@ -57,14 +60,31 @@ class HomeController < ApplicationController
 		all = canal.search("div#iceConditionsText")
 		cond = all.search("h3").inner_html
 		updated = all.search("div#iceConditionsTextSmall").inner_html
-		return;
+
+		respond_to do |format|
+			format.json { render :json => Rink.all }
+		end
 	end
 
   def map
 		@rinks = Rink.all
+		@allrinks = {}
+		i = 0
+		@rinks.each do |rink|
+			arink = {}
+			arink['rink'] = rink
+
+			condition = Rinkcondition.where(:rink_id => rink.id).order('tempupdated DESC').first
+			if !condition.nil?
+				arink = {:rink => rink, :condition => condition }
+			end
+			@allrinks[i] = arink
+			i += 1
+		end
+
     respond_to do |format|
-      format.json { render :json => @rinks }
-      format.xml { render :xml => @rinks }
+      format.json { render :json => @allrinks }
+      format.xml { render :xml => @allrinks }
     end
   end
 
