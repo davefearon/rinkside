@@ -163,10 +163,10 @@
 
   function handleNoGeolocation(errorFlag) {
     if (errorFlag == true) {
-      initialLocation = newyork;
+      initialLocation = ottawa;
       contentString = "Error: The Geolocation service failed.";
     } else {
-      initialLocation = siberia;
+      initialLocation = ottawa;
       contentString = "Error: Your browser doesn't support geolocation. Are you in Siberia?";
     }
     map.setCenter(initialLocation);

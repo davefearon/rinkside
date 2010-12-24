@@ -53,7 +53,7 @@
         initialLocation = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
         map.setCenter(initialLocation);
 				contentString = "You are here mofo!";
-				makeMarker(initialLocation,contentString,false,google.maps.Animation.BOUNCE);
+				makeMarker(initialLocation,contentString,true,google.maps.Animation.BOUNCE);
 				fetch_locations();
       }, function() {
         handleNoGeolocation(browserSupportFlag);
@@ -66,7 +66,7 @@
         initialLocation = new google.maps.LatLng(position.latitude,position.longitude);
         map.setCenter(initialLocation);
 				contentString = "You are here mofo!";
-				makeMarker(initialLocation,contentString,false,google.maps.Animation.BOUNCE);
+				makeMarker(initialLocation,contentString,true,google.maps.Animation.BOUNCE);
 				fetch_locations();
       }, function() {
         handleNoGeolocation(browserSupportFlag);
@@ -131,32 +131,46 @@
 			{
 				addresses = result;
 				$.each( addresses, function(i, value) {
-					if( value.rink.latitude == "" || value.rink.latitude == null || value.rink.longitude == "" || value.rink.longitude == null )
+
+					var info = "";
+					if( value.condition != null )
 					{
-						var pos = codeAddress( value.rink.id, value.rink.address + ", Ottawa, Ontario, Canada" );
-						//console.debug(pos);
-						makeMarker(pos,value.rink.name,false,google.maps.Animation.DROP);
+						info = makeInfo( value.rink.rink.name, value.rink.rink.address, value.rink.rink.rinktype, value.condition.rinkcondition.condition );
 					}
 					else
 					{
-						var position = new google.maps.LatLng(value.rink.latitude,value.rink.longitude);
-						makeMarker(position,value.rink.name,false,google.maps.Animation.DROP);
+						info = makeInfo( value.rink.rink.name, value.rink.rink.address, value.rink.rink.rinktype, "Unknown" );
+					}
+
+					if( value.rink.rink.latitude == "" || value.rink.rink.latitude == null || value.rink.rink.longitude == "" || value.rink.rink.longitude == null )
+					{
+						var pos = codeAddress( value.rink.rink.id, value.rink.rink.address + ", Ottawa, Ontario, Canada" );
+						makeMarker(pos,info,false,google.maps.Animation.DROP);
+					}
+					else
+					{
+						var position = new google.maps.LatLng(value.rink.rink.latitude,value.rink.rink.longitude);
+						makeMarker(position,info,false,google.maps.Animation.DROP);
 					}
 				});
 			}
 		});
 	}
 
+	function makeInfo( name, address, rinktype, condition ) {
+		return "<div class='infowindow'><h3>" + name + "</h3><h4>" + address + "</h4><p>" + condition + "<br/>" + rinktype + "</p></div>";
+	}
+
   function handleNoGeolocation(errorFlag) {
     if (errorFlag == true) {
-      initialLocation = newyork;
+      initialLocation = ottawa;
       contentString = "Error: The Geolocation service failed.";
     } else {
-      initialLocation = siberia;
+      initialLocation = ottawa;
       contentString = "Error: Your browser doesn't support geolocation. Are you in Siberia?";
     }
     map.setCenter(initialLocation);
-		makeMarker(initialLocation,contentString,false,google.maps.Animation.BOUNCE);
+		makeMarker(initialLocation,contentString,true,google.maps.Animation.BOUNCE);
 		fetch_locations();
   }
 
