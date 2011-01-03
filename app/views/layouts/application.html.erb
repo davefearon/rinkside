@@ -154,7 +154,6 @@
 
   function makeInfoWindow( marker, info ) {
     google.maps.event.addListener( marker, "click", function(event) {
-      toggleBounce(marker);
       infowindow.setContent(info);
       infowindow.open(map, marker);
     });
@@ -176,19 +175,26 @@
     });
   });
 
-  function toggleBounce(marker) {
-    if( marker.getAnimation() != null ) {
-      marker.setAnimation(null);
-    } else {
-      //marker.setAnimation(google.maps.Animation.BOUNCE);
-    }
-  }
-
   function filterMarkers(rinkType,condition) {
-    console.debug(rinkType);
-    console.debug(condition);
-    for(i=0;i<=markerCount;i++) {
-      //console.debug(markers[i][1]);
+    infowindow.close();
+    for(i=0;i<markerCount;i++) {
+      if( markers[i][1] != null ) {
+        var string = markers[i][1];
+        string = string.toLowerCase();
+        console.debug( string.match("(" + condition + ")(?=(" + rinkType + "))") );
+        if( string.match("(" + condition + ")") == null || string.match("(" + rinkType + ")") == null ) {
+          m = markers[i][0];
+          m.setVisible(false);
+        } else {
+          m = markers[i][0];
+          m.setVisible(true);
+        }
+        
+        if( condition == "" && rinkType == "" ) {
+          m = markers[i][0];
+          m.setVisible(true);
+        }
+      }
     }
   }
 
@@ -226,7 +232,7 @@
   }
 
   function makeInfo( name, address, rinktype, condition ) {
-    return "<div class='infowindow'><h3>" + name + "</h3><h4>" + address + "</h4><p>" + condition + "<br/>" + rinktype + "</p></div>";
+    return "<div class='infowindow'><h3>" + name + "</h3><h4>" + address + "</h4><p>Condition: " + condition + "<br/>Rink Type: " + rinktype + "</p></div>";
   }
 
   /*

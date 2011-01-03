@@ -56,13 +56,15 @@ class HomeController < ApplicationController
 
 		canal = open("http://www.ncc-ccn.gc.ca/bins/ncc_web_content_page.asp?cid=16297-16299-10080&lang=1&bhcp=1") {|f| Hpricot(f) }
 		all = canal.search("div#iceConditionsText")
-		cond = all.search("h3").inner_html
+		cond = all.search("h3").inner_html.gsub(/Ice\sConditions\<br\s\/\>/,"")
 		updated = all.search("div#iceConditionsTextSmall").inner_html
-    puts updated
-    @rideau = Rink.where("name = 'Rideau Canal'").first
-    tempupdated = 1;
-    
-    #otherRideau = Rinkcondition.where(:)
+    @rideau = Rink.where("name = 'Rideau Canal Skateway'").first
+    @tempudpated = DateTime.strptime(updated.gsub(/Updated:\s/,""), "%d/%m/%Y %H:%M:%S %p").to_i;
+    double = Rinkcondition.where(:tempupdated => @tempupdated, :rink_id => @rideau.id).first
+    if double.nil?
+      @rideau.rinkconditions.create({ :condition => cond, :comment => "", :tempupdated => @tempupdated })
+    end
+
 		respond_to do |format|
 			format.json { render :json => Rink.all }
 		end
