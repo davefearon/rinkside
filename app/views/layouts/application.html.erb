@@ -33,6 +33,8 @@
   var browserSupportFlag =  new Boolean();
   var map;
   var marker;
+  var markers = Array();
+  var markerCount = 0;
   var infowindow;
 
   function initialize() {
@@ -151,18 +153,42 @@
   }
 
   function makeInfoWindow( marker, info ) {
-      google.maps.event.addListener( marker, "click", function(event) {
-        toggleBounce(marker);
-        infowindow.setContent(info);
-        infowindow.open(map, marker);
-      });
+    google.maps.event.addListener( marker, "click", function(event) {
+      toggleBounce(marker);
+      infowindow.setContent(info);
+      infowindow.open(map, marker);
+    });
+    
+    markers[markerCount] = new Array( marker, info );
+    markerCount++;
   }
+
+  var filterByRinkType = "";
+  var filterByCondition = "";
+  $(document).ready(function(){
+    $('#rinkType').change(function(){
+      filterByRinkType = $('#rinkType').val();
+      filterMarkers(filterByRinkType,filterByCondition);
+    });
+    $('#rinkCondition').change(function(){
+      filterByCondition = $('#rinkCondition').val();
+      filterMarkers(filterByRinkType,filterByCondition);
+    });
+  });
 
   function toggleBounce(marker) {
     if( marker.getAnimation() != null ) {
       marker.setAnimation(null);
     } else {
       //marker.setAnimation(google.maps.Animation.BOUNCE);
+    }
+  }
+
+  function filterMarkers(rinkType,condition) {
+    console.debug(rinkType);
+    console.debug(condition);
+    for(i=0;i<=markerCount;i++) {
+      //console.debug(markers[i][1]);
     }
   }
 

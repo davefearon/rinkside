@@ -58,16 +58,17 @@ class HomeController < ApplicationController
 		all = canal.search("div#iceConditionsText")
 		cond = all.search("h3").inner_html
 		updated = all.search("div#iceConditionsTextSmall").inner_html
-
+    puts updated
+    @rideau = Rink.where("name = 'Rideau Canal'").first
+    tempupdated = 1;
+    
+    #otherRideau = Rinkcondition.where(:)
 		respond_to do |format|
 			format.json { render :json => Rink.all }
 		end
 	end
 
   def map
-    c = params[:condition]
-    r = params[:region]
-    
 		@rinks = Rink.all
 		@allrinks = {}
 		i = 0
