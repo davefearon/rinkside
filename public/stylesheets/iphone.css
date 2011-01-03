@@ -1,0 +1,4 @@
+#logo { position: static; left:0; background:url('../images/logo-iphone.jpg') no-repeat; width:auto; height:40px; padding-top:0;}
+footer,header { display:none;}
+#left-wrapper,#right-wrapper { float:none;}
+#left-wrapper { width:auto;}

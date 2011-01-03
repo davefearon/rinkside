@@ -21,7 +21,7 @@
   <script>!window.jQuery && document.write(unescape('%3Cscript src="/javascripts/libs/jquery-1.4.2.js"%3E%3C/script%3E'))</script>
   <script src="/javascripts/script.js"></script>
 
-  <%= stylesheet_link_tag :all %>
+  <%= stylesheet_link_tag 'master' %>
   <%#= javascript_include_tag :all %>
   <%= csrf_meta_tag %>
 
@@ -38,7 +38,13 @@
   function initialize() {
     var myOptions = {
       zoom: 14,
-      mapTypeId: google.maps.MapTypeId.ROADMAP
+      mapTypeId: google.maps.MapTypeId.ROADMAP,
+      mapTypeControlOptions: {
+        style: google.maps.MapTypeControlStyle.DROPDOWN_MENU
+      },
+      navigationControlOptions: {
+        style: google.maps.NavigationControlStyle.SMALL
+      }
     };
     map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
 
@@ -52,7 +58,7 @@
       navigator.geolocation.getCurrentPosition(function(position) {
         initialLocation = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
         map.setCenter(initialLocation);
-        contentString = "You are here mofo!";
+        contentString = "Your current location.";
         makeStartMarker(initialLocation,contentString);
         //fetch_locations();
       }, function() {
@@ -65,7 +71,7 @@
       geo.getCurrentPosition(function(position) {
         initialLocation = new google.maps.LatLng(position.latitude,position.longitude);
         map.setCenter(initialLocation);
-        contentString = "You are here mofo!";
+        contentString = "Your current location.";
         makeStartMarker(initialLocation,contentString);
         //fetch_locations();
       }, function() {
@@ -83,12 +89,19 @@
     infowindow.setContent(info);
     infowindow.setPosition(position);
     //infowindow.open(map);
+    
+    var image = new google.maps.MarkerImage("../images/location.gif",
+        new google.maps.Size(50.0, 67.0),
+        new google.maps.Point(0, 0),
+        new google.maps.Point(33.0, 33.0)
+    );
 
     marker = new google.maps.Marker({
       map: map,
-      animation: google.maps.Animation.BOUNCE,
+      // animation: google.maps.Animation.BOUNCE,
       position: position,
-      clickable: true
+      clickable: true,
+      icon: image
     });
 
     makeInfoWindow(marker, info);
@@ -97,19 +110,41 @@
   function makeMarker( position, info, open, animation ) {
       infowindow.setContent(info);
       infowindow.setPosition(position);
+      
+      // **hockey guy**
+      // var image = new google.maps.MarkerImage("../images/marker.png",
+      //     new google.maps.Size(50.0, 67.0),
+      //     new google.maps.Point(0, 0),
+      //     new google.maps.Point(25.0, 33.0)
+      // );
+      // var shadow = new google.maps.MarkerImage("../images/shadow.png",
+      //     new google.maps.Size(84.0, 67.0),
+      //     new google.maps.Point(0, 0),
+      //     new google.maps.Point(25.0, 33.0)
+      // );
+      
+      // **sticks icon**
+      var image = new google.maps.MarkerImage("../images/marker2.png",
+          new google.maps.Size(40.0, 37.0),
+          new google.maps.Point(0, 0),
+          new google.maps.Point(20.0, 18.0)
+      );
+      
 
       if( animation != null ) {
         marker = new google.maps.Marker({
           map: map,
           animation: animation,
           position: position,
-          clickable: true
+          clickable: true,
+          icon: image
         });
       } else {
         marker = new google.maps.Marker({
           map: map,
           clickable: true,
-          position: position
+          position: position,
+          icon: image
         });
       }
       makeInfoWindow(marker, info);
@@ -233,6 +268,8 @@
     s.parentNode.insertBefore(g, s);
    })(document, 'script');
   </script>
+
+
 
 </body>
 </html>
