@@ -1,5 +1,4 @@
 <!doctype html>
-
 <!--[if lt IE 7 ]> <html lang="en" class="no-js ie6"> <![endif]-->
 <!--[if IE 7 ]>    <html lang="en" class="no-js ie7"> <![endif]-->
 <!--[if IE 8 ]>    <html lang="en" class="no-js ie8"> <![endif]-->
@@ -28,10 +27,10 @@
 
   <script src="http://code.google.com/apis/gears/gears_init.js"></script>
   <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=true"></script>
+	<script src="/javascripts/mylibs/maps.js"></script>
   <script>
-  var geocoder;
+  /*var geocoder;
   var initialLocation;
-  var ottawa = new google.maps.LatLng(45.409056,-75.681725);
   var browserSupportFlag =  new Boolean();
   var map;
 	var marker;
@@ -39,7 +38,7 @@
 
   function initialize() {
     var myOptions = {
-      zoom: 12,
+      zoom: 14,
       mapTypeId: google.maps.MapTypeId.ROADMAP
     };
     map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
@@ -53,7 +52,7 @@
         initialLocation = new google.maps.LatLng(position.coords.latitude,position.coords.longitude);
         map.setCenter(initialLocation);
 				contentString = "You are here mofo!";
-				makeMarker(initialLocation,contentString,true,google.maps.Animation.BOUNCE);
+				makeStartMarker(initialLocation,contentString);
 				fetch_locations();
       }, function() {
         handleNoGeolocation(browserSupportFlag);
@@ -66,7 +65,7 @@
         initialLocation = new google.maps.LatLng(position.latitude,position.longitude);
         map.setCenter(initialLocation);
 				contentString = "You are here mofo!";
-				makeMarker(initialLocation,contentString,true,google.maps.Animation.BOUNCE);
+				makeStartMarker(initialLocation,contentString);
 				fetch_locations();
       }, function() {
         handleNoGeolocation(browserSupportFlag);
@@ -78,18 +77,31 @@
     }
   }
 
+	function makeStartMarker( position, info ) {
+		infowindow.setContent(info);
+		infowindow.setPosition(position);
+		//infowindow.open(map);
+
+		marker = new google.maps.Marker({
+			map: map,
+			animation: google.maps.Animation.BOUNCE,
+			position: position,
+			clickable: true
+		});
+
+		makeInfoWindow(marker, info);
+	}
+
 	function makeMarker( position, info, open, animation ) {
 		infowindow.setContent(info);
 		infowindow.setPosition(position);
-		if(open) {
-			infowindow.open(map);
-		}
 
 		if( animation != null ) {
 			marker = new google.maps.Marker({
 				map: map,
 				animation: animation,
-				position: position
+				position: position,
+				clickable: true
 			});
 		} else {
 			marker = new google.maps.Marker({
@@ -162,15 +174,14 @@
 	}
 
   function handleNoGeolocation(errorFlag) {
-    if (errorFlag == true) {
-      initialLocation = ottawa;
+    initialLocation = new google.maps.LatLng(45.409056,-75.681725);
+		if(errorFlag == true) {
       contentString = "Error: The Geolocation service failed.";
     } else {
-      initialLocation = ottawa;
       contentString = "Error: Your browser doesn't support geolocation. Are you in Siberia?";
     }
     map.setCenter(initialLocation);
-		makeMarker(initialLocation,contentString,true,google.maps.Animation.BOUNCE);
+		makeStartMarker(initialLocation,contentString);
 		fetch_locations();
   }
 
@@ -184,7 +195,6 @@
 						latitude: results[0].geometry.location.lat(),
 						longitude: results[0].geometry.location.lng()
 					};
-				//console.debug(data);
 					$.ajax({
 						type: "PUT",
 						url: "/rinks/" + id,
@@ -204,7 +214,7 @@
 				//console.debug(status)
 			}
 		});
-	}
+	}*/
   </script>
 </head>
 

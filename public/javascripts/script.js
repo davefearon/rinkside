@@ -3,7 +3,11 @@
 */
 
 $(document).ready(function(){
-    $(window).bind("resize", init);
+    $(window).bind("resize", function(){
+        init();
+        init();
+    });
+    init();
     init();
     function init() {
         $('#map_canvas').css({
