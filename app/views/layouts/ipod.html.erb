@@ -45,8 +45,6 @@
 
     infowindow = new google.maps.InfoWindow();
 
-    map.setCenter(new google.maps.LatLng(45.409056,-75.681725));
-
     // Try W3C Geolocation method (Preferred)
     if(navigator.geolocation) {
       browserSupportFlag = true;
@@ -55,29 +53,9 @@
         map.setCenter(initialLocation);
         contentString = "You are here mofo!";
         makeStartMarker(initialLocation,contentString);
-        //fetch_locations();
-      }, function() {
-        //handleNoGeolocation(browserSupportFlag);
-      });
-    } else if (google.gears) {
-      // Try Google Gears Geolocation
-      browserSupportFlag = true;
-      var geo = google.gears.factory.create('beta.geolocation');
-      geo.getCurrentPosition(function(position) {
-        initialLocation = new google.maps.LatLng(position.latitude,position.longitude);
-        map.setCenter(initialLocation);
-        contentString = "You are here mofo!";
-        makeStartMarker(initialLocation,contentString);
-        //fetch_locations();
-      }, function() {
-        //handleNoGeolocation(browserSupportFlag);
-      });
-    } else {
-      // Browser doesn't support Geolocation
-      browserSupportFlag = false;
-      //handleNoGeolocation(browserSupportFlag);
+        fetch_locations();
+      }, function() { /* no geolocation */ });
     }
-    fetch_locations();
   }
 
   function makeStartMarker( position, info ) {
