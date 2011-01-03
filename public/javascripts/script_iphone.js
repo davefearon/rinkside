@@ -8,7 +8,7 @@ $(document).ready(function(){
 
     function init() {
         $('#map_canvas').css({
-            width: $(window).width() - 200,
+            width: $(window).width(),
             height: $(window).height()
         });
     }
