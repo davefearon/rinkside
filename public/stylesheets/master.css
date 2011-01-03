@@ -1,22 +1,18 @@
 /* rinkside CSS */
 /* copyright 2010 dave fearon & warren dunlop */
 
-html{ background: url('../images/bg2.jpg') repeat; }
+body { background: url('../images/bg2.jpg') repeat;}
 
-/*body { background: url('../images/map.jpg') no-repeat center center; }*/
-
-#left-wrapper { float:left; width:200px; background:rgba(25, 25, 25, 0.9); height:auto;}
+#left-wrapper { float:left; width:199px; background:rgba(25, 25, 25, 0.9); height:auto; border-right:1px solid black; text-align:center; font-family: 'interstate';}
 #right-wrapper { float:right; width:auto;}
 
 #logo { padding-top:20px; background:url('../images/logo.png') no-repeat; width:200px; height:89px; background-position: left 15px; }
 
-footer { color: #fff; bottom:0; padding: 10px 15px; text-shadow: 0 1px 0 #111; }
+footer, header { color: #fff; padding: 10px 15px; text-shadow: 0 1px 0 #111; }
+footer { bottom: 0;}
 
-/*#corner-tl, #corner-tr, #corner-br, #corner-bl { background: url('../images/map-corner.png') no-repeat; position:fixed; width:500px; height:500px; }
-#corner-tl { top:0; left:0; background-position: bottom right; }
-#corner-tr { top:0; right:0; background-position: bottom left; }
-#corner-br { bottom:0; right:0; background-position: top left; }
-#corner-bl { bottom:0; left:0; background-position: top right; }
+.infowindow { font-family: 'interstate'; letter-spacing:-.4px;}
+
 
 /* SCAFFOLD */
 body, p, ol, ul, td { font-size: 13px; line-height: 18px; }
@@ -51,7 +47,6 @@ hr { display:block; height:1px; border:0; border-top:1px solid #ccc; margin:1em 
 input, select { vertical-align:middle; }
 
 body { font:13px/1.231 sans-serif; *font-size:small; } 
-select, input, textarea, button { font:99% sans-serif; }
 pre, code, kbd, samp { font-family: monospace, sans-serif; }
 
 body, select, input, textarea { color: #444; }
@@ -77,7 +72,8 @@ input[type="radio"] { vertical-align: text-bottom; }
 input[type="checkbox"] { vertical-align: bottom; }
 .ie7 input[type="checkbox"] { vertical-align: baseline; }
 .ie6 input { vertical-align: text-bottom; }
-label, input[type=button], input[type=submit], button { cursor: pointer; }
+input[type=button], input[type=submit], button { cursor: pointer; }
+label { display:block;}
 button, input, select, textarea { margin: 0; }
 input:valid, textarea:valid { }
 input:invalid, textarea:invalid { border-radius: 1px; -moz-box-shadow: 0px 0px 5px red; -webkit-box-shadow: 0px 0px 5px red; box-shadow: 0px 0px 5px red; }
@@ -119,14 +115,10 @@ button { width: auto; overflow: visible; }
  h2, h3{ page-break-after: avoid; }
 }
 
-/* ExtInfoWindow */
-#simple_example_window { width: 300px; }
-#simple_example_window_contents { background-color: #fff; }
-#custom_info_window_red_beak { width: 28px; height: 38px; background: url('../examples/images/corners/red_beak.png') top left no-repeat transparent; }
-* html #simple_example_window_beak {
- /* Alpha transparencies hack for IE */
- background-image:none;
- filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='../examples/images/corners/red_beak.png', sizingMethod='crop');
+@font-face {
+  font-family: 'interstate';
+  src: url('../fonts/interstate-webfont.eot');
+  src: local('☺'), url('../fonts/interstate-webfont.woff') format('woff'), url('../fonts/interstate-webfont.ttf') format('truetype'), url('../fonts/interstate-webfont.svg#webfontEMhhnAwW') format('svg');
+  font-weight: normal;
+  font-style: normal;
 }
-#simple_example_window_tl, #simple_example_window_tr, #simple_example_window_bl, #simple_example_window_br,
-#simple_example_window_t,#simple_example_window_l,#simple_example_window_r,#simple_example_window_b { background-color: #f00; height: 2px; width: 2px; }
