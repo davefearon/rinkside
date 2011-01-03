@@ -181,7 +181,6 @@
       if( markers[i][1] != null ) {
         var string = markers[i][1];
         string = string.toLowerCase();
-        console.debug( string.match("(" + condition + ")(?=(" + rinkType + "))") );
         if( string.match("(" + condition + ")") == null || string.match("(" + rinkType + ")") == null ) {
           m = markers[i][0];
           m.setVisible(false);
