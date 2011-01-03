@@ -34,6 +34,8 @@
   var browserSupportFlag =  new Boolean();
   var map;
   var marker;
+  var markers = Array();
+  var markerCount = 0;
   var infowindow;
 
   function initialize() {
@@ -68,7 +70,7 @@
     infowindow.setContent(info);
     infowindow.setPosition(position);
     //infowindow.open(map);
-    
+
     var image = new google.maps.MarkerImage("../images/location.gif",
         new google.maps.Size(50.0, 67.0),
         new google.maps.Point(0, 0),
@@ -77,6 +79,7 @@
 
     marker = new google.maps.Marker({
       map: map,
+      // animation: google.maps.Animation.BOUNCE,
       position: position,
       clickable: true,
       icon: image
@@ -88,7 +91,7 @@
   function makeMarker( position, info, open, animation ) {
       infowindow.setContent(info);
       infowindow.setPosition(position);
-      
+
       // **hockey guy**
       // var image = new google.maps.MarkerImage("../images/marker.png",
       //     new google.maps.Size(50.0, 67.0),
@@ -100,14 +103,14 @@
       //     new google.maps.Point(0, 0),
       //     new google.maps.Point(25.0, 33.0)
       // );
-      
+
       // **sticks icon**
       var image = new google.maps.MarkerImage("../images/marker2.png",
           new google.maps.Size(40.0, 37.0),
           new google.maps.Point(0, 0),
           new google.maps.Point(20.0, 18.0)
       );
-      
+
 
       if( animation != null ) {
         marker = new google.maps.Marker({
@@ -128,20 +131,48 @@
       makeInfoWindow(marker, info);
   }
 
-
   function makeInfoWindow( marker, info ) {
-      google.maps.event.addListener( marker, "click", function(event) {
-        toggleBounce(marker);
-        infowindow.setContent(info);
-        infowindow.open(map, marker);
-      });
+    google.maps.event.addListener( marker, "click", function(event) {
+      infowindow.setContent(info);
+      infowindow.open(map, marker);
+    });
+
+    markers[markerCount] = new Array( marker, info );
+    markerCount++;
   }
 
-  function toggleBounce(marker) {
-    if( marker.getAnimation() != null ) {
-      marker.setAnimation(null);
-    } else {
-      //marker.setAnimation(google.maps.Animation.BOUNCE);
+  var filterByRinkType = "";
+  var filterByCondition = "";
+  $(document).ready(function(){
+    $('#rinkType').change(function(){
+      filterByRinkType = $('#rinkType').val();
+      filterMarkers(filterByRinkType,filterByCondition);
+    });
+    $('#rinkCondition').change(function(){
+      filterByCondition = $('#rinkCondition').val();
+      filterMarkers(filterByRinkType,filterByCondition);
+    });
+  });
+
+  function filterMarkers(rinkType,condition) {
+    infowindow.close();
+    for(i=0;i<markerCount;i++) {
+      if( markers[i][1] != null ) {
+        var string = markers[i][1];
+        string = string.toLowerCase();
+        if( string.match("(" + condition + ")") == null || string.match("(" + rinkType + ")") == null ) {
+          m = markers[i][0];
+          m.setVisible(false);
+        } else {
+          m = markers[i][0];
+          m.setVisible(true);
+        }
+
+        if( condition == "" && rinkType == "" ) {
+          m = markers[i][0];
+          m.setVisible(true);
+        }
+      }
     }
   }
 
@@ -179,7 +210,7 @@
   }
 
   function makeInfo( name, address, rinktype, condition ) {
-    return "<div class='infowindow'><h3>" + name + "</h3><h4>" + address + "</h4><p>" + condition + "<br/>" + rinktype + "</p></div>";
+    return "<div class='infowindow'><h3>" + name + "</h3><h4>" + address + "</h4><p>Condition: " + condition + "<br/>Rink Type: " + rinktype + "</p></div>";
   }
 
   /*
@@ -195,7 +226,7 @@
     //fetch_locations();
   }
   */
-  
+
   function codeAddress( id, address ) {
     geocoder = new google.maps.Geocoder();
     geocoder.geocode({'address':address}, function(results, status) {
