@@ -32,7 +32,9 @@
   var initialLocation;
   var browserSupportFlag =  new Boolean();
   var map;
+  var markers = Array();
   var marker;
+  var markerCount = 0;
   var infowindow;
 
   function initialize() {
@@ -83,7 +85,6 @@
     infowindow.setContent(info);
     infowindow.setPosition(position);
     //infowindow.open(map);
-
     marker = new google.maps.Marker({
       map: map,
       animation: google.maps.Animation.BOUNCE,
@@ -121,6 +122,8 @@
         infowindow.setContent(info);
         infowindow.open(map, marker);
       });
+    markers[markerCount] = marker;
+    markerCount++;
   }
 
   function toggleBounce(marker) {
@@ -210,6 +213,7 @@
       }
     });
   }
+  
   </script>
 </head>
 

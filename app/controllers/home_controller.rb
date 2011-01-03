@@ -1,7 +1,5 @@
 class HomeController < ApplicationController
   def index
-    flash[:notice] = params[:q]
-
     respond_to do |format|
       format.html # index.html.erb
     end
@@ -67,6 +65,9 @@ class HomeController < ApplicationController
 	end
 
   def map
+    c = params[:condition]
+    r = params[:region]
+    
 		@rinks = Rink.all
 		@allrinks = {}
 		i = 0
