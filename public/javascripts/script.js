@@ -12,7 +12,7 @@ $(document).ready(function(){
           height: $(window).height()
       });
       $('#header').css({
-        height: $(window).height() - $('#logo').height() - $('#footer').height() - 40
+        height: $(window).height() - $('#logo').height() - $('#footer').height() - 60
       });
     }
 });
