@@ -5,6 +5,7 @@ $(document).ready(function(){
     });
     init();
     init();
+    init();
 
     function init() {
       $('#map_canvas').css({
