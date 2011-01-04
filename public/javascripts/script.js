@@ -9,7 +9,6 @@ $(document).ready(function(){
 });
 
 function init() {
-  console.debug('hit');
   $('#map_canvas').css({
       width: $(window).width() - 200,
       height: $(window).height()
