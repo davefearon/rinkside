@@ -20,6 +20,7 @@ class ApplicationController < ActionController::Base
     session.inspect
     if session.has_key? "layout"
       return "iphone" if (session["layout"] == "iphone")
+      return "iphone" if (session["layout"] == "palm")
       return "ipad" if (session["layout"] == "ipad")
       return "ipod" if (session["layout"] == "ipod")
       return "application"
