@@ -7,6 +7,7 @@ var marker;
 var markers = Array();
 var markerCount = 0;
 var infowindow;
+var currentMarker;
 
 function initialize() {
   var myOptions = {
@@ -127,6 +128,7 @@ function makeInfoWindow( marker, info ) {
   google.maps.event.addListener( marker, "click", function(event) {
     infowindow.setContent(info);
     infowindow.open(map, marker);
+    currentMarker = marker;
   });
 
   markers[markerCount] = new Array( marker, info );
@@ -210,7 +212,45 @@ function fetch_locations() {
 }
 
 function makeInfo( name, address, rinktype, condition ) {
-  return "<div class='infowindow'><h3>" + name + "</h3><h4>" + address + "</h4><p>Condition: " + condition + "<br/>Rink Type: " + rinktype + "</p></div>";
+  return "<div class='infowindow'><h3>" + name + "</h3><h4>" + address + "</h4><p>Condition: " + condition + "<br/>Rink Type: " + rinktype + "</p><p onclick='getDirections(); return true;'>Get Directions</p></div>";
+}
+
+var googleDirectionOptions;
+var directionDisplay;
+var directionsService;
+
+function getDirections() {
+  try {
+    directionDisplay.setMap(null);
+  } catch(e) {}
+
+  return directions();
+}
+
+function directions() {
+  directionDisplay = new google.maps.DirectionsRenderer();
+  directionDisplay.setMap(null);
+  console.debug( directionDisplay.getMap() );
+  directionsService = new google.maps.DirectionsService();
+  document.getElementById('directions').innerHTML = "";
+
+  var request = {
+    origin: initialLocation,
+    destination: currentMarker.position.toString(),
+    travelMode: google.maps.DirectionsTravelMode.DRIVING
+  };
+
+  directionsService.route(request, function(response, status) {
+    if(status == google.maps.DirectionsStatus.OK) {
+      directionDisplay.setMap(null);
+      directionDisplay.setMap(map);
+      //directionDisplay.setPanel(document.getElementById('directions'));
+      directionDisplay.setDirections(response);
+    }
+  });
+
+  //directionDisplay.setMap(null);
+  return true;
 }
 
 /*
@@ -292,6 +332,7 @@ function codeAddress( id, address ) {
   <div id="right-wrapper">
     <div id="main">
         <div id="map_canvas"></div>
+        <div id="directions"></div>
     </div>
   </div>
 </div> <!-- end of #container -->

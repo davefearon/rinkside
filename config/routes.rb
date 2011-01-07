@@ -11,6 +11,7 @@ Rinkside::Application.routes.draw do
 	end
 
   match 'home/map' => 'home#map'
+  match 'v2' => 'home#v2'
 
   match 'home/fetch_database' => 'home#fetch_database'
 

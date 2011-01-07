@@ -11,11 +11,21 @@ $(document).ready(function(){
 
 function init() {
   $('#map_canvas').css({
-      width: $(window).width() - 200,
-      height: $(window).height()
+      width: $(window).width() - 400,
+      height: $(window).height(),
+      position: "absolute",
+      top: 0,
+      left: "200px"
   });
   $('#header').css({
     height: $(window).height() - $('#logo').height() - $('#footer').height() - 60
+  });
+  $('#directions').css({
+    width: "200px",
+    height:$(window).height(),
+    position: "absolute",
+    top: 0,
+    right: 0
   });
   return true;
 }

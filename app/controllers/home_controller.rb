@@ -3,7 +3,13 @@ class HomeController < ApplicationController
     respond_to do |format|
       format.html # index.html.erb
     end
-	end
+  end
+
+  def v2
+    respond_to do |format|
+      format.html #v2.html.erb
+    end
+  end
 
 	def move_data
 		@rinks = Rink.all
