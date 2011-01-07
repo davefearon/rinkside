@@ -160,7 +160,15 @@
       if( markers[i][1] != null ) {
         var string = markers[i][1];
         string = string.toLowerCase();
-        if( string.match("(" + condition + ")") == null || string.match("(" + rinkType + ")") == null ) {
+        var thecondition;
+        if( condition == "excellent" ) { thecondition = "(excellent)"; }
+        else if( condition == "good" ) { thecondition = "(excellent)|(good)"; }
+        else if ( condition == "fair" ) { thecondition = "(excellent)|(good)|(fair)"; }
+        else if ( condition == "poor" ) { thecondition = "(excellent)|(good)|(fair)|(poor)"; }
+        else if ( condition == "closed" ) { thecondition = "(closed)"; }
+        else { thecondition = "(excellent)|(good)|(fair)|(poor)|(closed)"; }
+
+        if( string.match("" + thecondition + "") == null || string.match("(" + rinkType + ")") == null ) {
           m = markers[i][0];
           m.setVisible(false);
         } else {

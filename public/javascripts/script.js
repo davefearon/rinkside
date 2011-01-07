@@ -6,6 +6,7 @@ $(document).ready(function(){
   init();
   init();
   timer = setTimeout("init()",500);
+  timer2 = setTimeout("init()",1000);
 });
 
 function init() {
