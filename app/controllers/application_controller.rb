@@ -4,7 +4,7 @@ class ApplicationController < ActionController::Base
   layout :detect_browser
 
   private
-  MOBILE_BROWSERS = ["android", "ipod", "iphone", "ipad", "opera mini", "blackberry", "palm", "hiptop", "avantgo", "plucker", "xiino", "blazer", "elaine", "windows ce; ppc;", "windows ce; smartphone;", "windows ce; iemobile", "up.browser", "up.link", "mmp", "symbian", "smartphone", "midp", "wap", "vodafone", "o2", "pocket", "kindle", "mobile", "pda", "psp", "treo"]
+  MOBILE_BROWSERS = ["android", "ipod", "iphone", "ipad", "opera mini", "blackberry", "webOS", "palm", "hiptop", "avantgo", "plucker", "xiino", "blazer", "elaine", "windows ce; ppc;", "windows ce; smartphone;", "windows ce; iemobile", "up.browser", "up.link", "mmp", "symbian", "smartphone", "midp", "wap", "vodafone", "o2", "pocket", "kindle", "mobile", "pda", "psp", "treo"]
 
   def detect_browser
     layout = selected_layout
@@ -22,6 +22,8 @@ class ApplicationController < ActionController::Base
       return "iphone" if (session["layout"] == "iphone")
       return "ipad" if (session["layout"] == "ipad")
       return "ipod" if (session["layout"] == "ipod")
+      return "webOS" if (session["layout"] == "webOS")
+      return "android" if (session["layout"] == "android")
       return "application"
     end
     return nil
