@@ -244,7 +244,7 @@ function directions() {
     if(status == google.maps.DirectionsStatus.OK) {
       directionDisplay.setMap(null);
       directionDisplay.setMap(map);
-      //directionDisplay.setPanel(document.getElementById('directions'));
+      directionDisplay.setPanel(document.getElementById('directions'));
       directionDisplay.setDirections(response);
     }
   });
