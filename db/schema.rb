@@ -37,7 +37,7 @@ ActiveRecord::Schema.define(:version => 20101223170433) do
     t.string   "hours"
     t.string   "lights"
     t.text     "facilities"
-    t.text     "conditions"
+    t.text     "rinkconditions"
     t.text     "notes"
     t.datetime "created_at"
     t.datetime "updated_at"

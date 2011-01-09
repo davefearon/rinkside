@@ -1,0 +1,16 @@
+<%= form_for([@rink, @rink.rinkconditions.build]) do |f| %>
+  <h2><%= @rink.name %></h2>
+
+  <div class="field">
+    <label for="condition">What is the condition?</label><br />
+    <%= f.text_area :condition %>
+  </div>
+	<div class="field">
+    <%= f.label :comment %><br />
+    <%= f.text_area :comment %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

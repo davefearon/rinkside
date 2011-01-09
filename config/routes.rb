@@ -1,25 +1,25 @@
 Rinkside::Application.routes.draw do
-  get "about/index"
-
-  get "home/index"
-
+  get 'home/index'
   root :to => 'home#index'
+  match 'home' => 'home#index'
+  match 'home/map' => 'home#map'
+  match 'home/pull_conditions' => 'home#pull_conditions'
+  match 'home/set_layout' => 'home#set_layout'
+  match 'home/fetch_database' => 'home#fetch_database'
+  match 'home/move_data' => 'home#move_data'
+
+  match 'v2' => 'home#v2'
+
+  get 'about/index'
+  match 'about' => 'about#index'
 
   resources :rinks do
 		resources :rinkconditions
 		resources :rinknotes
-	end
+  end
 
-  match 'home/map' => 'home#map'
-  match 'v2' => 'home#v2'
-
-  match 'home/fetch_database' => 'home#fetch_database'
-
-	match 'home/pull_conditions' => 'home#pull_conditions'
-	match 'home/move_data' => 'home#move_data'
-
-  match 'home/set_layout' => 'home#set_layout'
-
+  resources :RinkconditionsController
+  match 'rinkconditions/new/:id' => 'rinkconditions#new'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
