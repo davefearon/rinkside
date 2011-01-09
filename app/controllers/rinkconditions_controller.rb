@@ -19,6 +19,6 @@ class RinkconditionsController < ApplicationController
 
     @newcondition = @rink.rinkconditions.create({ :condition => @condition, :comment => @description, :tempupdated => @tempupdated })
 
-    return @newcondition
+    return true
   end
 end
