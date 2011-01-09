@@ -212,14 +212,15 @@ function fetch_locations() {
 }
 
 function makeInfo( name, address, rinktype, condition ) {
-  return "<div class='infowindow'><h3>" + name + "</h3><h4>" + address + "</h4><p>Condition: " + condition + "<br/>Rink Type: " + rinktype + "</p><p onclick='getDirections(); return true;'>Get Directions</p></div>";
+  return "<div class='infowindow'><h3>" + name + "</h3><h4>" + address + "</h4><p>Condition: " + condition + "<br/>Rink Type: " + rinktype + "</p><p class='getdirections' onclick='getDirections(); return true;'>Get Directions</p></div>";
 }
 
-var googleDirectionOptions;
+var googleDirectionOptions = { draggable: true };
 var directionDisplay;
 var directionsService;
 
 function getDirections() {
+  infowindow.close();
   try {
     directionDisplay.setMap(null);
   } catch(e) {}
@@ -228,7 +229,7 @@ function getDirections() {
 }
 
 function directions() {
-  directionDisplay = new google.maps.DirectionsRenderer();
+  directionDisplay = new google.maps.DirectionsRenderer(googleDirectionOptions);
   directionDisplay.setMap(null);
   console.debug( directionDisplay.getMap() );
   directionsService = new google.maps.DirectionsService();
@@ -327,7 +328,7 @@ function codeAddress( id, address ) {
     </header>
     
     <footer id="footer">
-      <p style="margin-bottom:20px;"><a href="http://www.apps4ottawa.ca/en/apps/116" target="_blank"><img src="../images/vote.png"/></a></p>
+      <p style="margin-bottom:20px;"><a href="http://www.apps4ottawa.ca/en/apps/116" target="_blank"><img src="../images/vote.png" width="60" height="60"/></a></p>
       <small>rinksi.de is an open data project by ottawans<br/> <a href="http://davefearon.com" target="_blank">Dave Fearon</a> &amp; <a href="http://warrendunlop.com" target="_blank">Warren Dunlop</a></small>
     </footer>
   </div> <!-- end left -->

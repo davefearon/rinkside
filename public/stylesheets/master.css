@@ -12,6 +12,9 @@ footer, header { color: #fff; padding: 10px 15px; text-shadow: 0 1px 0 #111; }
 footer { bottom: 0;}
 
 .infowindow { font-family: 'interstate'; letter-spacing:-.4px;}
+p.getdirections { cursor:pointer; }
+p.getdirections:hover { text-decoration:underline; }
+#directions { overflow-y:scroll; }
 
 
 /* SCAFFOLD */
