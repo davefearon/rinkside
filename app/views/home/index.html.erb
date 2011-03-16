@@ -7,6 +7,7 @@ var marker;
 var markers = Array();
 var markerCount = 0;
 var infowindow;
+var currentMarker;
 
 function initialize() {
   var myOptions = {
@@ -80,46 +81,144 @@ function makeStartMarker( position, info ) {
   makeInfoWindow(marker, info);
 }
 
-function makeMarker( position, info, open, animation ) {
+function makeMarker( position, info, open, animation, condition ) {
     infowindow.setContent(info);
     infowindow.setPosition(position);
-
-    // **hockey guy**
-    // var image = new google.maps.MarkerImage("../images/marker.png",
-    //     new google.maps.Size(50.0, 67.0),
-    //     new google.maps.Point(0, 0),
-    //     new google.maps.Point(25.0, 33.0)
-    // );
-    // var shadow = new google.maps.MarkerImage("../images/shadow.png",
-    //     new google.maps.Size(84.0, 67.0),
-    //     new google.maps.Point(0, 0),
-    //     new google.maps.Point(25.0, 33.0)
-    // );
-
-    // **sticks icon**
-    var image = new google.maps.MarkerImage("../images/marker2.png",
-        new google.maps.Size(40.0, 37.0),
-        new google.maps.Point(0, 0),
-        new google.maps.Point(20.0, 18.0)
-    );
-
-
-    if( animation != null ) {
-      marker = new google.maps.Marker({
-        map: map,
-        animation: animation,
-        position: position,
-        clickable: true,
-        icon: image
-      });
+    console.debug(condition);
+    var image;
+    if( condition == "excellent" ) {
+      image = new google.maps.MarkerImage("../images/marker2-excellent.png",
+          new google.maps.Size(40.0, 37.0),
+          new google.maps.Point(0, 0),
+          new google.maps.Point(20.0, 18.0)
+      );
+      if( animation != null ) {
+        marker = new google.maps.Marker({
+          map: map,
+          animation: animation,
+          position: position,
+          clickable: true,
+          icon: image
+        });
+      } else {
+        marker = new google.maps.Marker({
+          map: map,
+          clickable: true,
+          position: position,
+          icon: image
+        });
+      }
+    } else if( condition == "good" ) {
+      image = new google.maps.MarkerImage("../images/marker2-good.png",
+          new google.maps.Size(40.0, 37.0),
+          new google.maps.Point(0, 0),
+          new google.maps.Point(20.0, 18.0)
+      );
+      if( animation != null ) {
+        marker = new google.maps.Marker({
+          map: map,
+          animation: animation,
+          position: position,
+          clickable: true,
+          icon: image
+        });
+      } else {
+        marker = new google.maps.Marker({
+          map: map,
+          clickable: true,
+          position: position,
+          icon: image
+        });
+      }
+    } else if ( condition == "fair" ) {
+      image = new google.maps.MarkerImage("../images/marker2-fair.png",
+          new google.maps.Size(40.0, 37.0),
+          new google.maps.Point(0, 0),
+          new google.maps.Point(20.0, 18.0)
+      );
+      if( animation != null ) {
+        marker = new google.maps.Marker({
+          map: map,
+          animation: animation,
+          position: position,
+          clickable: true,
+          icon: image
+        });
+      } else {
+        marker = new google.maps.Marker({
+          map: map,
+          clickable: true,
+          position: position,
+          icon: image
+        });
+      }
+    } else if ( condition == "poor" ) {
+      image = new google.maps.MarkerImage("../images/marker2-poor.png",
+          new google.maps.Size(40.0, 37.0),
+          new google.maps.Point(0, 0),
+          new google.maps.Point(20.0, 18.0)
+      );
+      if( animation != null ) {
+        marker = new google.maps.Marker({
+          map: map,
+          animation: animation,
+          position: position,
+          clickable: true,
+          icon: image
+        });
+      } else {
+        marker = new google.maps.Marker({
+          map: map,
+          clickable: true,
+          position: position,
+          icon: image
+        });
+      }
+    } else if ( condition == "closed" ) {
+      image = new google.maps.MarkerImage("../images/marker2-closed.png",
+          new google.maps.Size(40.0, 37.0),
+          new google.maps.Point(0, 0),
+          new google.maps.Point(20.0, 18.0)
+      );
+      if( animation != null ) {
+        marker = new google.maps.Marker({
+          map: map,
+          animation: animation,
+          position: position,
+          clickable: true,
+          icon: image
+        });
+      } else {
+        marker = new google.maps.Marker({
+          map: map,
+          clickable: true,
+          position: position,
+          icon: image
+        });
+      }
     } else {
-      marker = new google.maps.Marker({
-        map: map,
-        clickable: true,
-        position: position,
-        icon: image
-      });
-    }
+      image = new google.maps.MarkerImage("../images/marker2.png",
+          new google.maps.Size(40.0, 37.0),
+          new google.maps.Point(0, 0),
+          new google.maps.Point(20.0, 18.0)
+      );
+      if( animation != null ) {
+        marker = new google.maps.Marker({
+          map: map,
+          animation: animation,
+          position: position,
+          clickable: true,
+          icon: image
+        });
+      } else {
+        marker = new google.maps.Marker({
+          map: map,
+          clickable: true,
+          position: position,
+          icon: image
+        });
+      }
+    }  
     makeInfoWindow(marker, info);
 }
 
@@ -127,6 +226,7 @@ function makeInfoWindow( marker, info ) {
   google.maps.event.addListener( marker, "click", function(event) {
     infowindow.setContent(info);
     infowindow.open(map, marker);
+    currentMarker = marker;
   });
 
   markers[markerCount] = new Array( marker, info );
@@ -191,18 +291,25 @@ function fetch_locations() {
       addresses = result;
       $.each( addresses, function(i, value) {
         var info = "";
-        if( value.condition != null ) {
+        if( value.condition != null || value.condition != undefined ) {
           info = makeInfo( value.rink.rink.name, value.rink.rink.address, value.rink.rink.rinktype, value.condition.rinkcondition.condition );
         } else {
           info = makeInfo( value.rink.rink.name, value.rink.rink.address, value.rink.rink.rinktype, "Unknown" );
         }
-
         if( value.rink.rink.latitude == "" || value.rink.rink.latitude == null || value.rink.rink.longitude == "" || value.rink.rink.longitude == null ) {
           var pos = codeAddress( value.rink.rink.id, value.rink.rink.address + ", Ottawa, Ontario, Canada" );
-          makeMarker(pos,info,false,google.maps.Animation.DROP);
+          if( value.condition != null ) {
+            makeMarker(pos,info,false,google.maps.Animation.DROP,value.condition.rinkcondition.condition);
+          } else {
+            makeMarker(pos,info,false,google.maps.Animation.DROP,"unknown");
+          }
         } else {
           var position = new google.maps.LatLng(value.rink.rink.latitude,value.rink.rink.longitude);
-          makeMarker(position,info,false,google.maps.Animation.DROP);
+          if( value.condition != null ) {
+            makeMarker(position,info,false,google.maps.Animation.DROP,value.condition.rinkcondition.condition);
+          } else {
+            makeMarker(position,info,false,google.maps.Animation.DROP,"unknown");
+          }
         }
       });
     }
@@ -210,7 +317,45 @@ function fetch_locations() {
 }
 
 function makeInfo( name, address, rinktype, condition ) {
-  return "<div class='infowindow'><h3>" + name + "</h3><h4>" + address + "</h4><p>Condition: " + condition + "<br/>Rink Type: " + rinktype + "</p></div>";
+  return "<div class='infowindow'><h3>" + name + "</h3><h4>" + address + "</h4><p>Condition: " + condition + "<br/>Rink Type: " + rinktype + "</p><p class='getdirections' onclick='getDirections(); return true;'>Get Directions</p></div>";
+}
+
+var googleDirectionOptions = { draggable: true };
+var directionDisplay;
+var directionsService;
+
+function getDirections() {
+  infowindow.close();
+  try {
+    directionDisplay.setMap(null);
+  } catch(e) {}
+
+  return directions();
+}
+
+function directions() {
+  directionDisplay = new google.maps.DirectionsRenderer(googleDirectionOptions);
+  directionDisplay.setMap(null);
+  console.debug( directionDisplay.getMap() );
+  directionsService = new google.maps.DirectionsService();
+  document.getElementById('directions').innerHTML = "";
+
+  var request = {
+    origin: initialLocation,
+    destination: currentMarker.position.toString(),
+    travelMode: google.maps.DirectionsTravelMode.DRIVING
+  };
+
+  directionsService.route(request, function(response, status) {
+    if(status == google.maps.DirectionsStatus.OK) {
+      directionDisplay.setMap(null);
+      directionDisplay.setMap(map);
+      directionDisplay.setPanel(document.getElementById('directions'));
+      directionDisplay.setDirections(response);
+    }
+  });
+
+  return true;
 }
 
 /*
@@ -260,7 +405,6 @@ function codeAddress( id, address ) {
 <div id="container">
   <div id="left-wrapper">
     <div id="logo"></div>
-    
     <header id="header">
       <h3>filters</h3>
       <label for="rinkType">Rink Type</label>
@@ -282,16 +426,17 @@ function codeAddress( id, address ) {
         <option value="closed">Closed</option>
       </select>
     </header>
-    
+
     <footer id="footer">
-      <p style="margin-bottom:20px;"><a href="http://www.apps4ottawa.ca/en/apps/116" target="_blank"><img src="../images/vote.png"/></a></p>
+      <p style="display:none; margin-bottom:20px;"><a href="http://www.apps4ottawa.ca/en/apps/116" target="_blank"><img src="../images/vote.png" width="60" height="60"/></a></p>
       <small>rinksi.de is an open data project by ottawans<br/> <a href="http://davefearon.com" target="_blank">Dave Fearon</a> &amp; <a href="http://warrendunlop.com" target="_blank">Warren Dunlop</a></small>
     </footer>
   </div> <!-- end left -->
-  
+
   <div id="right-wrapper">
     <div id="main">
         <div id="map_canvas"></div>
+        <div id="directions"></div>
     </div>
   </div>
 </div> <!-- end of #container -->
